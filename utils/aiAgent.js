@@ -29,9 +29,9 @@ const PROVIDERS = {
       'Authorization': `Bearer ${process.env.GROQ_API_KEY || ''}`
     }),
     formatRequest: (messages, maxTokens) => ({
-      model: 'llama-3.1-70b-versatile',
+      model: 'llama-3.3-70b-versatile',
       messages: messages,
-      max_tokens: Math.min(maxTokens || 1500, 2000),
+      max_tokens: Math.min(maxTokens || 1500, 8000),
       temperature: 0.7
     }),
     parseResponse: (data) => data.choices[0].message.content
