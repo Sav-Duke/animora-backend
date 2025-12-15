@@ -4,22 +4,38 @@ import { searchVeterinaryInfo, needsWebSearch } from './webSearchAgent.js';
 dotenv.config();
 
 /**
- * Get a conversational AI response using free LLM services.
+ * Get a conversational AI response using AI services.
  * Supports multiple backends:
- * 1. Together AI (free tier with API key) - RECOMMENDED
- * 2. Groq (fast free tier with API key)
- * 3. Ollama (local, no API key needed if installed)
+ * 1. OpenAI GPT-4 (paid, most reliable) - RECOMMENDED
+ * 2. Together AI (free tier with API key)
+ * 3. Groq (fast free tier with API key)
+ * 4. Ollama (local, no API key needed if installed)
  * 
  * Set in .env:
- * - AI_PROVIDER=together|groq|ollama (default: together)
+ * - AI_PROVIDER=openai|together|groq|ollama (default: openai)
+ * - OPENAI_API_KEY (for OpenAI GPT-4) - Get at: https://platform.openai.com
  * - TOGETHER_API_KEY (for Together AI) - Get free at: https://api.together.xyz
  * - GROQ_API_KEY (for Groq) - Get free at: https://console.groq.com
  */
 
 // Configuration for different LLM providers
-const AI_PROVIDER = process.env.AI_PROVIDER || 'together';
+const AI_PROVIDER = process.env.AI_PROVIDER || 'openai';
 
 const PROVIDERS = {
+  openai: {
+    url: 'https://api.openai.com/v1/chat/completions',
+    getHeaders: () => ({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${process.env.OPENAI_API_KEY || ''}`
+    }),
+    formatRequest: (messages, maxTokens) => ({
+      model: 'gpt-4o-mini',
+      messages: messages,
+      max_tokens: maxTokens || 1000,
+      temperature: 0.7
+    }),
+    parseResponse: (data) => data.choices[0].message.content
+  },
   together: {
     url: 'https://api.together.xyz/v1/chat/completions',
     getHeaders: () => ({
