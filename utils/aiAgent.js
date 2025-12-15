@@ -6,36 +6,22 @@ dotenv.config();
 /**
  * Get a conversational AI response using free LLM services.
  * Supports multiple backends:
- * 1. xAI Grok (free tier) - RECOMMENDED
- * 2. Groq (fast free tier with API key)
+ * 1. Groq (fast free tier with API key) - RECOMMENDED
+ * 2. xAI Grok (free tier)
  * 3. Together AI (free tier with API key)
  * 4. Ollama (local, no API key needed if installed)
  * 
  * Set in .env:
- * - AI_PROVIDER=xai|groq|together|ollama (default: xai)
- * - XAI_API_KEY (for xAI Grok) - Get at: https://console.x.ai
+ * - AI_PROVIDER=groq|xai|together|ollama (default: groq)
  * - GROQ_API_KEY (for Groq) - Get free at: https://console.groq.com
+ * - XAI_API_KEY (for xAI Grok) - Get at: https://console.x.ai
  * - TOGETHER_API_KEY (for Together AI) - Get free at: https://api.together.xyz
  */
 
 // Configuration for different LLM providers
-const AI_PROVIDER = process.env.AI_PROVIDER || 'xai';
+const AI_PROVIDER = process.env.AI_PROVIDER || 'groq';
 
 const PROVIDERS = {
-  xai: {
-    url: 'https://api.x.ai/v1/chat/completions',
-    getHeaders: () => ({
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${process.env.XAI_API_KEY || ''}`
-    }),
-    formatRequest: (messages, maxTokens) => ({
-      model: 'grok-beta',
-      messages: messages,
-      max_tokens: maxTokens || 1500,
-      temperature: 0.7
-    }),
-    parseResponse: (data) => data.choices[0].message.content
-  },
   groq: {
     url: 'https://api.groq.com/openai/v1/chat/completions',
     getHeaders: () => ({
@@ -46,6 +32,20 @@ const PROVIDERS = {
       model: 'llama-3.1-70b-versatile',
       messages: messages,
       max_tokens: Math.min(maxTokens || 1500, 2000),
+      temperature: 0.7
+    }),
+    parseResponse: (data) => data.choices[0].message.content
+  },
+  xai: {
+    url: 'https://api.x.ai/v1/chat/completions',
+    getHeaders: () => ({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${process.env.XAI_API_KEY || ''}`
+    }),
+    formatRequest: (messages, maxTokens) => ({
+      model: 'grok-beta',
+      messages: messages,
+      max_tokens: maxTokens || 1500,
       temperature: 0.7
     }),
     parseResponse: (data) => data.choices[0].message.content
