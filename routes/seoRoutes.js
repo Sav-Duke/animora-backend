@@ -1,7 +1,8 @@
-const express = require('express');
-const router = express.Router();
-const seoController = require('../controllers/seoController');
 
+import express from 'express';
+import * as seoController from '../controllers/seoController.js';
+
+const router = express.Router();
 // CRUD routes for SEO Optimizer
 router.get('/', seoController.getAllSEO);
 router.get('/:page', seoController.getSEOByPage);
@@ -9,4 +10,4 @@ router.post('/', seoController.createSEO);
 router.put('/:page', seoController.updateSEO);
 router.delete('/:page', seoController.deleteSEO);
 
-module.exports = router;
+export default router;
