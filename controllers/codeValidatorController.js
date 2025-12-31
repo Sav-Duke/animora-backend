@@ -1,7 +1,8 @@
-const CodeValidation = require('../models/codeValidationModel');
+import CodeValidation from '../models/codeValidationModel.js';
+
 
 // Get all validation results
-exports.getAllValidations = async (req, res) => {
+export const getAllValidations = async (req, res) => {
   try {
     const results = await CodeValidation.find();
     res.json(results);
@@ -11,7 +12,7 @@ exports.getAllValidations = async (req, res) => {
 };
 
 // Get validation by ID
-exports.getValidationById = async (req, res) => {
+export const getValidationById = async (req, res) => {
   try {
     const result = await CodeValidation.findById(req.params.id);
     if (!result) return res.status(404).json({ error: 'Not found' });
@@ -22,7 +23,7 @@ exports.getValidationById = async (req, res) => {
 };
 
 // Create new validation result
-exports.createValidation = async (req, res) => {
+export const createValidation = async (req, res) => {
   try {
     const validation = new CodeValidation(req.body);
     await validation.save();
@@ -33,7 +34,7 @@ exports.createValidation = async (req, res) => {
 };
 
 // Update validation result
-exports.updateValidation = async (req, res) => {
+export const updateValidation = async (req, res) => {
   try {
     const validation = await CodeValidation.findByIdAndUpdate(
       req.params.id,
@@ -48,7 +49,7 @@ exports.updateValidation = async (req, res) => {
 };
 
 // Delete validation result
-exports.deleteValidation = async (req, res) => {
+export const deleteValidation = async (req, res) => {
   try {
     const validation = await CodeValidation.findByIdAndDelete(req.params.id);
     if (!validation) return res.status(404).json({ error: 'Not found' });

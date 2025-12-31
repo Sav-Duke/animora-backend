@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const codeValidationSchema = new mongoose.Schema({
   file: { type: String, required: true },
@@ -8,4 +8,5 @@ const codeValidationSchema = new mongoose.Schema({
   createdAt: { type: Date, default: Date.now }
 });
 
-module.exports = mongoose.model('CodeValidation', codeValidationSchema);
+const CodeValidation = mongoose.model('CodeValidation', codeValidationSchema);
+export default CodeValidation;
