@@ -1,4 +1,5 @@
-const mongoose = require('mongoose');
+
+import mongoose from 'mongoose';
 
 const seoSchema = new mongoose.Schema({
   page: { type: String, required: true, unique: true },
@@ -8,4 +9,5 @@ const seoSchema = new mongoose.Schema({
   updatedAt: { type: Date, default: Date.now }
 });
 
-module.exports = mongoose.model('SEO', seoSchema);
+const SEO = mongoose.model('SEO', seoSchema);
+export default SEO;
