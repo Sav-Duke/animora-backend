@@ -1,7 +1,8 @@
-const SEO = require('../models/seoModel');
+
+import SEO from '../models/seoModel.js';
 
 // Get all SEO entries
-exports.getAllSEO = async (req, res) => {
+export const getAllSEO = async (req, res) => {
   try {
     const seo = await SEO.find();
     res.json(seo);
@@ -11,7 +12,7 @@ exports.getAllSEO = async (req, res) => {
 };
 
 // Get SEO by page
-exports.getSEOByPage = async (req, res) => {
+export const getSEOByPage = async (req, res) => {
   try {
     const seo = await SEO.findOne({ page: req.params.page });
     if (!seo) return res.status(404).json({ error: 'Not found' });
@@ -22,7 +23,7 @@ exports.getSEOByPage = async (req, res) => {
 };
 
 // Create new SEO entry
-exports.createSEO = async (req, res) => {
+export const createSEO = async (req, res) => {
   try {
     const seo = new SEO(req.body);
     await seo.save();
@@ -33,7 +34,7 @@ exports.createSEO = async (req, res) => {
 };
 
 // Update SEO entry
-exports.updateSEO = async (req, res) => {
+export const updateSEO = async (req, res) => {
   try {
     const seo = await SEO.findOneAndUpdate(
       { page: req.params.page },
@@ -48,7 +49,7 @@ exports.updateSEO = async (req, res) => {
 };
 
 // Delete SEO entry
-exports.deleteSEO = async (req, res) => {
+export const deleteSEO = async (req, res) => {
   try {
     const seo = await SEO.findOneAndDelete({ page: req.params.page });
     if (!seo) return res.status(404).json({ error: 'Not found' });
