@@ -11,7 +11,26 @@ import codeValidatorRoutes from './routes/codeValidatorRoutes.js';
 dotenv.config();
 
 const app = express();
-app.use(cors());
+// --- Example CORS code for Express backend (Animora AI) ---
+// Only allow requests from your deployed frontends (replace with your actual Vercel domains):
+const allowedOrigins = [
+  'https://your-main-frontend.vercel.app',
+  'https://your-admin-frontend.vercel.app',
+  'http://localhost:3000'
+];
+app.use(cors({
+  origin: function (origin, callback) {
+    // allow requests with no origin (like mobile apps, curl, etc.)
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    } else {
+      return callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true
+}));
+// To customize, edit allowedOrigins above. For more info, see: https://expressjs.com/en/resources/middleware/cors.html
 app.use(express.json({ limit: '50mb' })); // Increased limit for image uploads
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
