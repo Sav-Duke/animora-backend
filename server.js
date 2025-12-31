@@ -5,6 +5,8 @@ import mongoose from 'mongoose';
 import diseaseRoutes from './routes/diseaseRoutes.js';
 import chatRoutes from './routes/chatRoutes.js';
 import imageRoutes from './routes/imageRoutes.js';
+import seoRoutes from './routes/seoRoutes.js';
+import codeValidatorRoutes from './routes/codeValidatorRoutes.js';
 
 dotenv.config();
 
@@ -19,6 +21,8 @@ app.use(express.urlencoded({ limit: '50mb', extended: true }));
 app.use('/api/diseases', diseaseRoutes);
 app.use('/api/chat', chatRoutes);
 app.use('/api/image', imageRoutes);
+app.use('/api/seo', seoRoutes);
+app.use('/api/code-validator', codeValidatorRoutes);
 
 // --- Test route ---
 app.get("/", (req, res) => {
